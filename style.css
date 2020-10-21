@@ -1,11 +1,5 @@
-.wcsob_soldout {
-    padding: 3px 8px;
-    text-align: center;
-    background: #222;
-    color: white;
-    font-weight: bold;
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    font-size: 12px;
+
+.single-product .wcsob_soldout {
+    left: 6px;
+    right: auto;
 }
