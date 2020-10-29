@@ -41,8 +41,11 @@ class WCSOB {
 		add_filter( 'woocommerce_sale_flash', [ $this, 'hide_sale_flash' ], 10, 3 );
 	}
 
+	/**
+	 * Loads plugin's translated strings.
+	 */
 	public function load_plugin_textdomain() {
-		load_plugin_textdomain( 'wcsob', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'wcsob', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
@@ -54,10 +57,12 @@ class WCSOB {
 
 	/**
 	 * Add nav menu and declare fields
+	 *
+	 * @noinspection PhpPossiblePolymorphicInvocationInspection
 	 */
 	public function add_plugin_settings_page() {
 		Container::make( 'theme_options', __( 'Sold Out Badge for WooCommerce', 'wcsob' ) )
-				 ->set_page_file( 'wcsob' )
+		         ->set_page_file( 'wcsob' )
 		         ->set_page_parent( 'options-general.php' )
 		         ->add_fields(
 			         [
@@ -79,6 +84,9 @@ class WCSOB {
 			         ] );
 	}
 
+	/**
+	 * Enqueue plugin scripts and styles
+	 */
 	public function enqueue_scripts() {
 		wp_enqueue_style( 'wcsob', plugin_dir_url( __FILE__ ) . '/style.css' );
 		$style = '';
@@ -97,15 +105,29 @@ class WCSOB {
 		wp_add_inline_style( 'wcsob', $style );
 	}
 
+	/**
+	 * Display Sold Out badge in products loop
+	 */
 	public function display_sold_out_in_loop() {
 		wc_get_template( 'single-product/sold-out.php' );
 	}
 
+	/**
+	 * Display Sold Out badge in single product
+	 */
 	public function display_sold_out_in_single() {
 		wc_get_template( 'single-product/sold-out.php' );
 	}
 
-	public function replace_out_of_stock_text( $html, $product ) {
+	/**
+	 * Replace "Out of stock" text with "Sold out!"
+	 *
+	 * @param string                   $html
+	 * @param false|null|WC_Product    $product
+	 *
+	 * @return string
+	 */
+	public function replace_out_of_stock_text( string $html, $product ) {
 		if ( ! $product->is_in_stock() ) {
 			return '<p class="wcsob_soldout_text">' . esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'wcsob' ) . '</p>';
 		}
@@ -113,12 +135,32 @@ class WCSOB {
 		return $html;
 	}
 
-	public function hide_sale_flash( $content, $post, $product ) {
+	/**
+	 * Hide Sale badge if product is out of stock
+	 *
+	 * @noinspection PhpUnusedLocalVariableInspection
+	 *
+	 * @param string                   $content
+	 * @param array|null|WP_Post       $post
+	 * @param false|null|WC_Product    $product
+	 *
+	 * @return mixed|null
+	 */
+	public function hide_sale_flash( string $content, $post, $product ) {
 		global $post, $product;
 
 		return ( carbon_get_theme_option( 'wcsob_hide_sale_flash' ) && ! $product->is_in_stock() ) ? null : $content;
 	}
 
+	/**
+	 * Locate plugin WooCommerce templates to override WooCommerce default ones
+	 *
+	 * @param $template
+	 * @param $template_name
+	 * @param $template_path
+	 *
+	 * @return string
+	 */
 	public function woocommerce_locate_template( $template, $template_name, $template_path ) {
 		global $woocommerce;
 		$_template = $template;
