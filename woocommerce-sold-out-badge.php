@@ -3,7 +3,7 @@
  * Plugin Name:       WooCommerce Sold Out Badge
  * Plugin URI:        https://web-nancy.fr
  * Description:       Affiche un badge "Vendu" sur les produits en rupture de stock
- * Version:           2.0
+ * Version:           2.1
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Charlie Etienne
@@ -38,6 +38,7 @@ class WCSOB {
 		// Plugin filters
 		add_filter( 'woocommerce_get_stock_html', [ $this, 'replace_out_of_stock_text' ], 10, 2 );
 		add_filter( 'woocommerce_locate_template', [ $this, 'woocommerce_locate_template' ], 1, 3 );
+		add_filter( 'woocommerce_sale_flash', [ $this, 'hide_sale_flash' ], 10, 3 );
 	}
 
 	/**
@@ -52,20 +53,24 @@ class WCSOB {
 	 */
 	public function add_plugin_settings_page() {
 		Container::make( 'theme_options', __( 'WooCommerce Sold Out Badge' ) )
-				 ->set_page_parent( 'options-general.php' )
+		         ->set_page_parent( 'options-general.php' )
 		         ->add_fields(
 			         [
 				         Field::make( 'text', 'wcsob_text', __( 'Label' ) )
-					         ->set_default_value( __( 'Sold out!' ) ),
+				              ->set_default_value( __( 'Sold out!' ) ),
 
 				         Field::make( 'color', 'wcsob_background_color', __( 'Background Color' ) )
-					         ->set_default_value( '#222222' ),
+				              ->set_default_value( '#222222' ),
 
 				         Field::make( 'color', 'wcsob_text_color', __( 'Text Color' ) )
-					         ->set_default_value( '#ffffff' ),
+				              ->set_default_value( '#ffffff' ),
 
 				         Field::make( 'text', 'wcsob_font_size', __( 'Font size' ) )
-					         ->set_default_value( '12' ),
+				              ->set_default_value( '12' ),
+
+				         Field::make( 'checkbox', 'wcsob_hide_sale_flash', __( 'Hide Sale badge?' ) )
+				              ->set_help_text( __( 'Do you want to hide the "Sale!" badge when a product is sold out?' ) )
+				              ->set_default_value( true ),
 			         ] );
 	}
 
@@ -99,7 +104,14 @@ class WCSOB {
 		if ( ! $product->is_in_stock() ) {
 			return '<p class="wcsob_soldout_text">' . esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'wcsob' ) . '</p>';
 		}
+
 		return $html;
+	}
+
+	public function hide_sale_flash( $content, $post, $product ) {
+		global $post, $product;
+
+		return ( carbon_get_theme_option( 'wcsob_hide_sale_flash' ) && ! $product->is_in_stock() ) ? null : $content;
 	}
 
 	public function woocommerce_locate_template( $template, $template_name, $template_path ) {
@@ -109,7 +121,7 @@ class WCSOB {
 			$template_path = $woocommerce->template_url;
 		}
 
-		$plugin_path  = untrailingslashit( plugin_dir_path( __FILE__ ) )  . '/woocommerce/';
+		$plugin_path = untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/woocommerce/';
 
 		// Look within passed path within the theme - this is priority
 		$template = locate_template(
@@ -119,7 +131,7 @@ class WCSOB {
 			)
 		);
 
-		if( ! $template && file_exists( $plugin_path . $template_name ) ) {
+		if ( ! $template && file_exists( $plugin_path . $template_name ) ) {
 			$template = $plugin_path . $template_name;
 		}
 
