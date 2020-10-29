@@ -1,17 +1,16 @@
 === WooCommerce Sold Out Badge ===
 Contributors: CharlieEtienne
-Tags: woocommerce, sold out, vendu, badge, rupture, stock, rupture de stock,
+Tags: woocommerce, sold out, out of stock, badge
 Requires at least: 5.2
 Tested up to: 5.5
-Stable tag: 2.0
+Stable tag: 2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Affiche un badge "Vendu" sur les produits en rupture de stock
+Display a "Sold Out!" badge on out of stock products
 
 == Description ==
-
-Affiche un badge "Vendu" sur les produits en rupture de stock
+Display a "Sold Out!" badge on out of stock products
 
 = Usage, Documentation & Resources =
 
