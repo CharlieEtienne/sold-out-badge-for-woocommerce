@@ -1,0 +1,62 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Sold Out Badge\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-29 09:52+0000\n"
+"PO-Revision-Date: 2020-10-29 09:54+0000\n"
+"Last-Translator: \n"
+"Language-Team: Français\n"
+"Language: fr_FR\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.4.4; wp-5.5.1"
+
+#. Name of the plugin
+#: woocommerce-sold-out-badge.php:60
+msgid "WooCommerce Sold Out Badge"
+msgstr "Badge Vendu pour WooCommerce"
+
+#: woocommerce-sold-out-badge.php:64
+msgid "Label"
+msgstr "Label"
+
+#: woocommerce-sold-out-badge.php:65
+msgid "Sold out!"
+msgstr "Vendu !"
+
+#: woocommerce-sold-out-badge.php:67
+msgid "Background Color"
+msgstr "Couleur d'arrière-plan"
+
+#: woocommerce-sold-out-badge.php:70
+msgid "Text Color"
+msgstr "Couleur du texte"
+
+#: woocommerce-sold-out-badge.php:73
+msgid "Font size"
+msgstr "Taille de police"
+
+#: woocommerce-sold-out-badge.php:76
+msgid "Hide Sale badge?"
+msgstr "Masquer le badge Promo ?"
+
+#: woocommerce-sold-out-badge.php:77
+msgid "Do you want to hide the \"Sale!\" badge when a product is sold out?"
+msgstr ""
+"Souhaitez-vous masquer le badge \"Promo\" lorsqu'un produit est vendu ?"
+
+#. Description of the plugin
+msgid "Display a \"Sold Out!\" badge on out of stock products"
+msgstr "Affiche un badge \"Vendu\" sur les produits en rupture de stock"
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://web-nancy.fr"
+msgstr "https://web-nancy.fr"
+
+#. Author of the plugin
+msgid "Charlie Etienne"
+msgstr "Charlie Etienne"
