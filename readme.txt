@@ -1,5 +1,5 @@
 === Sold Out Badge for WooCommerce ===
-Contributors: charliewebnancy
+Contributors: charlieetienne
 Tags: woocommerce, sold out, out of stock, badge
 Requires at least: 5.2
 Tested up to: 5.5
