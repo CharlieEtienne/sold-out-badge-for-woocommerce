@@ -1,9 +1,8 @@
 <?php
 /**
- * Plugin Name:       WooCommerce Sold Out Badge
- * Plugin URI:        https://web-nancy.fr
+ * Plugin Name:       Sold Out Badge for WooCommerce
  * Description:       Display a "Sold Out!" badge on out of stock products
- * Version:           2.2
+ * Version:           2.3
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Charlie Etienne
@@ -57,7 +56,7 @@ class WCSOB {
 	 * Add nav menu and declare fields
 	 */
 	public function add_plugin_settings_page() {
-		Container::make( 'theme_options', __( 'WooCommerce Sold Out Badge', 'wcsob' ) )
+		Container::make( 'theme_options', __( 'Sold Out Badge for WooCommerce', 'wcsob' ) )
 				 ->set_page_file( 'wcsob' )
 		         ->set_page_parent( 'options-general.php' )
 		         ->add_fields(
