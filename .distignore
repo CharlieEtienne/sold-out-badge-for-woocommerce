@@ -23,3 +23,8 @@ psalm.xml
 README.md
 gulpfile.js
 grumphp.yml
+.wordpress-org
+/.wordpress-org
+/.git
+/.github
+/node_modules
