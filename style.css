@@ -2,4 +2,5 @@
 .single-product .wcsob_soldout {
     left: 6px;
     right: auto;
+    z-index: 9999;
 }
