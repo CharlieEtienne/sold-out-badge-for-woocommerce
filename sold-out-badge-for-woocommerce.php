@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Sold Out Badge for WooCommerce
  * Description:       Display a "Sold Out!" badge on out of stock products
- * Version:           2.3
+ * Version:           2.0.3
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Charlie Etienne
@@ -91,15 +91,15 @@ class WCSOB {
 		wp_enqueue_style( 'wcsob', plugin_dir_url( __FILE__ ) . '/style.css' );
 		$style = '';
 		$style .= ".wcsob_soldout {";
-		$style .= "	padding: 3px 8px;";
+		$style .= "    padding: 3px 8px;";
 		$style .= "    text-align: center;";
 		$style .= "    background: " . esc_html( carbon_get_theme_option( 'wcsob_background_color' ) ) . ";";
-		$style .= "    color:  " . esc_html( carbon_get_theme_option( 'wcsob_text_color' ) ) . ";";
+		$style .= "    color: " . esc_html( carbon_get_theme_option( 'wcsob_text_color' ) ) . ";";
 		$style .= "    font-weight: bold;";
 		$style .= "    position: absolute;";
 		$style .= "    top: 6px;";
 		$style .= "    right: 6px;";
-		$style .= "    font-size:  " . esc_html( carbon_get_theme_option( 'wcsob_font_size' ) ) . "px;";
+		$style .= "    font-size: " . esc_html( carbon_get_theme_option( 'wcsob_font_size' ) ) . "px;";
 		$style .= "}";
 
 		wp_add_inline_style( 'wcsob', $style );
