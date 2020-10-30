@@ -1,7 +1,7 @@
 === Sold Out Badge for WooCommerce ===
 Contributors: charlieetienne
 Tags: woocommerce, sold out, out of stock, badge, wcsob
-Stable tag: 2.0.6
+Stable tag: 2.0.7
 Requires at least: 5.2
 Tested up to: 5.5
 Requires PHP: 7.2
@@ -39,7 +39,3 @@ Sure, go ahead! It is completely open source.
 1. Single product page
 2. Store and categories pages
 3. Admin settings
-
-/sold-out-badge-for-woocommerce/assets/screenshot1.png
-/sold-out-badge-for-woocommerce/assets/screenshot2.png
-/sold-out-badge-for-woocommerce/assets/screenshot3.png
