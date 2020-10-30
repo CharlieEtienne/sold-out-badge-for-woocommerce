@@ -1,6 +1,6 @@
 === Sold Out Badge for WooCommerce ===
 Contributors: charlieetienne
-Tags: woocommerce, sold out, out of stock, badge
+Tags: woocommerce, sold out, out of stock, badge, wcsob
 Requires at least: 5.2
 Tested up to: 5.5
 Stable tag: 2.0.4
@@ -15,8 +15,8 @@ Display a "Sold Out!" badge on out of stock products
 = Usage, Documentation & Resources =
 
 * WordPress Plugin: https://wordpress.org/plugins/sold-out-badge-for-woocommerce
-* Documentation (GitHub): https://github.com/CharlieEtienne/woocommerce-sold-out-badge
-* GitHub Repository: https://github.com/CharlieEtienne/woocommerce-sold-out-badge
+* Documentation (GitHub): https://github.com/CharlieEtienne/sold-out-badge-for-woocommerce
+* GitHub Repository: https://github.com/CharlieEtienne/sold-out-badge-for-woocommerce
 
 == Installation ==
 

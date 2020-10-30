@@ -1,4 +1,4 @@
-# WooCommerce Sold Out Badge WordPress Plugin
+# Sold Out Badge for WooCommerce - WordPress Plugin
 
 ### About
 
