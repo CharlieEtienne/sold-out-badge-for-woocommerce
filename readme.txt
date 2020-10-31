@@ -21,11 +21,12 @@ This plugin was initially created to help people and companies selling *unique* 
 
 However, this plugin can be used by **anyone** wanting to display **any text** in a badge when a product is out of stock. 
 
-= Usage & Documentation =
+== Usage & Documentation ==
 
 You can customize options in ***Settings > Sold Out Badge for WooCommerce***
 
-**What can I customize in this plugin ?**
+= What can I customize in this plugin ? =
+
 * **Badge text** (you can replace "*Sold Out*" with any text you want, like "*Out of stock*" or "*Coming Soon*")
 * **Badge background color**
 * **Badge text color**
