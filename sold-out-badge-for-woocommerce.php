@@ -2,14 +2,14 @@
 /**
  * Plugin Name:       Sold Out Badge for WooCommerce
  * Description:       Display a "Sold Out!" badge on out of stock products
- * Version:           2.0.9
+ * Version:           2.0.10
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Charlie Etienne
  * Author URI:        https://web-nancy.fr
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       wcsob
+ * Text Domain:       sold-out-badge-for-woocommerce
  * Domain Path:       /languages
  */
 
@@ -61,25 +61,25 @@ class WCSOB {
 	 * @noinspection PhpPossiblePolymorphicInvocationInspection
 	 */
 	public function add_plugin_settings_page() {
-		Container::make( 'theme_options', __( 'Sold Out Badge for WooCommerce', 'wcsob' ) )
+		Container::make( 'theme_options', __( 'Sold Out Badge for WooCommerce', 'sold-out-badge-for-woocommerce' ) )
 		         ->set_page_file( 'wcsob' )
 		         ->set_page_parent( 'options-general.php' )
 		         ->add_fields(
 			         [
-				         Field::make( 'text', 'wcsob_text', __( 'Label', 'wcsob' ) )
-				              ->set_default_value( __( 'Sold out!', 'wcsob' ) ),
+				         Field::make( 'text', 'wcsob_text', __( 'Label', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_default_value( __( 'Sold out!', 'sold-out-badge-for-woocommerce' ) ),
 
-				         Field::make( 'color', 'wcsob_background_color', __( 'Background Color', 'wcsob' ) )
+				         Field::make( 'color', 'wcsob_background_color', __( 'Background Color', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_default_value( '#222222' ),
 
-				         Field::make( 'color', 'wcsob_text_color', __( 'Text Color', 'wcsob' ) )
+				         Field::make( 'color', 'wcsob_text_color', __( 'Text Color', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_default_value( '#ffffff' ),
 
-				         Field::make( 'text', 'wcsob_font_size', __( 'Font size', 'wcsob' ) )
+				         Field::make( 'text', 'wcsob_font_size', __( 'Font size', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_default_value( '12' ),
 
-				         Field::make( 'checkbox', 'wcsob_hide_sale_flash', __( 'Hide Sale badge?', 'wcsob' ) )
-				              ->set_help_text( __( 'Do you want to hide the "Sale!" badge when a product is sold out?', 'wcsob' ) )
+				         Field::make( 'checkbox', 'wcsob_hide_sale_flash', __( 'Hide Sale badge?', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_help_text( __( 'Do you want to hide the "Sale!" badge when a product is sold out?', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_default_value( true ),
 			         ] );
 	}
@@ -130,7 +130,7 @@ class WCSOB {
 	 */
 	public function replace_out_of_stock_text( string $html, $product ) {
 		if ( ! $product->is_in_stock() ) {
-			return '<p class="wcsob_soldout_text">' . esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'wcsob' ) . '</p>';
+			return '<p class="wcsob_soldout_text">' . esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'sold-out-badge-for-woocommerce' ) . '</p>';
 		}
 
 		return $html;
