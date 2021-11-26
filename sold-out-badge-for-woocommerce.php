@@ -1,16 +1,18 @@
 <?php
 /**
- * Plugin Name:       Sold Out Badge for WooCommerce
- * Description:       Display a "Sold Out!" badge on out of stock products
- * Version:           2.0.10
- * Requires at least: 5.2
- * Requires PHP:      7.2
- * Author:            Charlie Etienne
- * Author URI:        https://web-nancy.fr
- * License:           GPL v2 or later
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       sold-out-badge-for-woocommerce
- * Domain Path:       /languages
+ * Plugin Name:             Sold Out Badge for WooCommerce
+ * Description:             Display a "Sold Out!" badge on out of stock products
+ * Version:                 2.1.0
+ * Requires at least:       5.2
+ * Requires PHP:            7.2
+ * WC requires at least:    4.0
+ * WC tested up to:         5.9
+ * Author:                  Charlie Etienne
+ * Author URI:              https://web-nancy.fr
+ * License:                 GPL v2 or later
+ * License URI:             https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:             sold-out-badge-for-woocommerce
+ * Domain Path:             /languages
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -39,6 +41,7 @@ class WCSOB {
 		add_filter( 'woocommerce_get_stock_html', [ $this, 'replace_out_of_stock_text' ], 10, 2 );
 		add_filter( 'woocommerce_locate_template', [ $this, 'woocommerce_locate_template' ], 1, 3 );
 		add_filter( 'woocommerce_sale_flash', [ $this, 'hide_sale_flash' ], 10, 3 );
+		add_action( 'woocommerce_before_single_variation', [ $this, 'show_badge_on_variation_select' ] );
 	}
 
 	/**
@@ -118,6 +121,32 @@ class WCSOB {
 	 */
 	public function display_sold_out_in_single() {
 		wc_get_template( 'single-product/sold-out.php' );
+	}
+
+	/**
+	 * Show or hide Sold Out badge when user select a variation in dropdown
+	 */
+	public function show_badge_on_variation_select() {
+		?>
+        <script type="text/javascript">
+            (function($){
+                let $form = $('form.variations_form');
+                let $product = $form.closest( '.product' );
+                let sold_out_text = "<?php echo esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'sold-out-badge-for-woocommerce' ) ?>";
+                $form.on('show_variation', function(event, data){
+                    if (! data.is_in_stock){
+                        $product.prepend('<span class="wcsob_soldout">' + sold_out_text + '</span>');
+                    }
+                    else {
+                        $('.wcsob_soldout').remove();
+                    }
+                });
+                $form.on('reset_data', function(event, data){
+                    $('.wcsob_soldout').remove();
+                });
+            })(jQuery);
+        </script>
+		<?php
 	}
 
 	/**
