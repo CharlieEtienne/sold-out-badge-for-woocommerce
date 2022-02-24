@@ -1,20 +1,20 @@
 === Sold Out Badge for WooCommerce ===
 Contributors: charlieetienne
 Tags: woocommerce, sold out, out of stock, badge, wcsob
-Stable tag: 2.1.0
+Stable tag: 2.2.0
 Requires at least: 5.2
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate Link: https://paypal.me/webnancy
 
-Display a "Sold Out!" badge on out of stock products.
+Display a "Sold Out!" badge on out-of-stock products.
 Show the text and colors you want. Perfect for artists, artisans, real estate professionals...
 
 == Description ==
 
-Display a "Sold Out!" badge on out of stock products.
+Display a "Sold Out!" badge on out-of-stock products.
 When a WooCommerce product becomes out of stock, this plugin will show a badge on thumbnail with the text you will have defined.
 
 This plugin was initially created to help people and companies selling *unique* products or services, like artists, artisans, real estate professionals, etc. It is often beneficial for them to keep showing sold out (out of stock) products on their websites, while displaying a message indicating that the product can't be sold anymore.
@@ -61,3 +61,9 @@ Yes. Go to *Settings > Sold Out Badge for WooCommerce*, you'll find the setting 
 1. Single product page
 2. Store and categories pages
 3. Admin settings
+
+== Changelog ==
+
+= 2.2.0 =
+   * Move to Singleton pattern to let other developpers unhook actions and filters.
+     If you want to unhook something, use it like this, for example: `remove_filter( 'woocommerce_get_stock_html', [ WCSOB::get_instance(), 'replace_out_of_stock_text' ], 10, 2 );`

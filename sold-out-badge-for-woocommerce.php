@@ -1,12 +1,12 @@
 <?php
 /**
  * Plugin Name:             Sold Out Badge for WooCommerce
- * Description:             Display a "Sold Out!" badge on out of stock products
- * Version:                 2.1.0
+ * Description:             Display a "Sold Out!" badge on out-of-stock products
+ * Version:                 2.2.0
  * Requires at least:       5.2
  * Requires PHP:            7.2
  * WC requires at least:    4.0
- * WC tested up to:         5.9
+ * WC tested up to:         6.2
  * Author:                  Charlie Etienne
  * Author URI:              https://web-nancy.fr
  * License:                 GPL v2 or later
@@ -28,19 +28,29 @@ require_once dirname( __FILE__ ) . '/vendor/carbon-fields/carbon-fields-plugin.p
 
 class WCSOB {
 
-	public function __construct() {
+	private static $instance;
+
+	final public static function get_instance(): WCSOB {
+		if (null === self::$instance) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	public function init() {
 		// Plugin actions
 		add_action( 'init', [ $this, 'load_plugin_textdomain' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'after_setup_theme', [ $this, 'load_carbon_fields' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'carbon_fields_register_fields', [ $this, 'add_plugin_settings_page' ] );
 		add_action( 'woocommerce_before_shop_loop_item_title', [ $this, 'display_sold_out_in_loop' ], 10 );
 		add_action( 'woocommerce_before_single_product_summary', [ $this, 'display_sold_out_in_single' ], 30 );
 
 		// Plugin filters
+		add_filter( 'woocommerce_sale_flash', [ $this, 'hide_sale_flash' ], 10, 3 );
 		add_filter( 'woocommerce_get_stock_html', [ $this, 'replace_out_of_stock_text' ], 10, 2 );
 		add_filter( 'woocommerce_locate_template', [ $this, 'woocommerce_locate_template' ], 1, 3 );
-		add_filter( 'woocommerce_sale_flash', [ $this, 'hide_sale_flash' ], 10, 3 );
 		add_action( 'woocommerce_before_single_variation', [ $this, 'show_badge_on_variation_select' ] );
 	}
 
@@ -92,8 +102,7 @@ class WCSOB {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_style( 'wcsob', plugin_dir_url( __FILE__ ) . '/style.css' );
-		$style = '';
-		$style .= ".wcsob_soldout {";
+		$style = ".wcsob_soldout {";
 		$style .= "    padding: 3px 8px;";
 		$style .= "    text-align: center;";
 		$style .= "    background: " . esc_html( carbon_get_theme_option( 'wcsob_background_color' ) ) . ";";
@@ -141,7 +150,7 @@ class WCSOB {
                         $('.wcsob_soldout').remove();
                     }
                 });
-                $form.on('reset_data', function(event, data){
+                $form.on('reset_data', function(){
                     $('.wcsob_soldout').remove();
                 });
             })(jQuery);
@@ -157,7 +166,7 @@ class WCSOB {
 	 *
 	 * @return string
 	 */
-	public function replace_out_of_stock_text( string $html, $product ) {
+	public function replace_out_of_stock_text( string $html, $product ): string {
 		if ( ! $product->is_in_stock() ) {
 			return '<p class="wcsob_soldout_text">' . esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'sold-out-badge-for-woocommerce' ) . '</p>';
 		}
@@ -174,9 +183,9 @@ class WCSOB {
 	 * @param array|null|WP_Post       $post
 	 * @param false|null|WC_Product    $product
 	 *
-	 * @return mixed|null
+	 * @return string|null
 	 */
-	public function hide_sale_flash( string $content, $post, $product ) {
+	public function hide_sale_flash( string $content, $post, $product ): ?string {
 		global $post, $product;
 
 		return ( carbon_get_theme_option( 'wcsob_hide_sale_flash' ) && ! $product->is_in_stock() ) ? null : $content;
@@ -191,7 +200,7 @@ class WCSOB {
 	 *
 	 * @return string
 	 */
-	public function woocommerce_locate_template( $template, $template_name, $template_path ) {
+	public function woocommerce_locate_template( $template, $template_name, $template_path ): string {
 		global $woocommerce;
 		$_template = $template;
 		if ( ! $template_path ) {
@@ -220,4 +229,4 @@ class WCSOB {
 	}
 }
 
-new WCSOB();
+WCSOB::get_instance()->init();
