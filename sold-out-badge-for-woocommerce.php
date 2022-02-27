@@ -2,7 +2,7 @@
 /**
  * Plugin Name:             Sold Out Badge for WooCommerce
  * Description:             Display a "Sold Out!" badge on out-of-stock products
- * Version:                 3.0.0
+ * Version:                 3.0.1
  * Requires at least:       5.2
  * Requires PHP:            7.2
  * WC requires at least:    4.0
@@ -188,6 +188,8 @@ class WCSOB {
 		$style .= "    height: " . $this->get_value_from_string( 'wcsob_height' ) . ";";
 		$style .= "    border-radius: " . esc_html( carbon_get_theme_option( 'wcsob_border_radius' ) ) . "px;";
 		$style .= "    z-index: " . esc_html( carbon_get_theme_option( 'wcsob_z_index' ) ) . ";";
+		$style .= "    text-align: center;";
+        $style .= "    position: absolute;";
 		$style .= "}";
 
         // Single product CSS

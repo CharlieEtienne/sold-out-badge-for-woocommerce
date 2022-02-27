@@ -1,7 +1,7 @@
 === Sold Out Badge for WooCommerce ===
 Contributors: charlieetienne
 Tags: woocommerce, sold out, out of stock, badge, wcsob
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 Requires at least: 5.2
 Tested up to: 5.9
 Requires PHP: 7.2
@@ -67,6 +67,8 @@ Yes. Go to *Settings > Sold Out Badge for WooCommerce*, you'll find the setting 
 
 == Changelog ==
 
+= 3.0.1 =
+* Fix missing "position: absolute" CSS rule
 
 = 3.0.0 =
 * **Potential breaking change (in other words, do a backup before upgrading)** : Adds settings options to control appearance (width, height, border-radius, etc.)
