@@ -32,7 +32,7 @@ class WCSOB {
 	private static $instance;
 
 	final public static function get_instance(): WCSOB {
-		if (null === self::$instance) {
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
@@ -83,24 +83,22 @@ class WCSOB {
 		         ->set_page_parent( 'options-general.php' )
 		         ->add_fields(
 			         [
-                         // Content
-                         Field::make( 'separator', 'wcsob_content', __( 'Content', 'sold-out-badge-for-woocommerce' ) ),
+				         // Content
+				         Field::make( 'separator', 'wcsob_content', __( 'Content', 'sold-out-badge-for-woocommerce' ) ),
 				         Field::make( 'text', 'wcsob_text', __( 'Label', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_default_value( __( 'Sold out!', 'sold-out-badge-for-woocommerce' ) ),
 
-
-                         // Colors
+				         // Colors
 				         Field::make( 'separator', 'wcsob_colors', __( 'Colors', 'sold-out-badge-for-woocommerce' ) ),
-                         Field::make( 'color', 'wcsob_background_color', __( 'Background Color', 'sold-out-badge-for-woocommerce' ) )
+				         Field::make( 'color', 'wcsob_background_color', __( 'Background Color', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_default_value( '#222222' )->set_width( 50 )
-                              ->set_help_text( __( 'Default #222222', 'sold-out-badge-for-woocommerce' ) ),
+				              ->set_help_text( __( 'Default #222222', 'sold-out-badge-for-woocommerce' ) ),
 
 				         Field::make( 'color', 'wcsob_text_color', __( 'Text Color', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_default_value( '#ffffff' )->set_width( 50 )
-                              ->set_help_text( __( 'Default #ffffff', 'sold-out-badge-for-woocommerce' ) ),
+				              ->set_help_text( __( 'Default #ffffff', 'sold-out-badge-for-woocommerce' ) ),
 
-
-                         // Other appearance settings
+				         // Other appearance settings
 				         Field::make( 'separator', 'wcsob_other_appearance_settings', __( 'Other appearance settings', 'sold-out-badge-for-woocommerce' ) ),
 				         Field::make( 'text', 'wcsob_font_size', __( 'Font size', 'sold-out-badge-for-woocommerce' ) . ' (px)' )
 				              ->set_default_value( '12' )->set_attribute( 'type', 'number' )->set_width( 16 )->set_help_text( __( 'Default "12"', 'sold-out-badge-for-woocommerce' ) ),
@@ -122,8 +120,7 @@ class WCSOB {
 				              ->set_default_value( '9999' )->set_attribute( 'type', 'number' )->set_width( 16 )
 				              ->set_help_text( __( 'Try to increase this value if your badge is still invisible. Default "9999".', 'sold-out-badge-for-woocommerce' ) ),
 
-
-                         // Padding
+				         // Padding
 				         Field::make( 'separator', 'wcsob_padding', __( 'Padding', 'sold-out-badge-for-woocommerce' ) ),
 				         Field::make( 'text', 'wcsob_padding_top', __( 'Padding top', 'sold-out-badge-for-woocommerce' ) . ' (px)' )
 				              ->set_default_value( '3' )->set_attribute( 'type', 'number' )->set_width( 25 )->set_help_text( __( 'Default "3"', 'sold-out-badge-for-woocommerce' ) ),
@@ -134,36 +131,33 @@ class WCSOB {
 				         Field::make( 'text', 'wcsob_padding_left', __( 'Padding left', 'sold-out-badge-for-woocommerce' ) . ' (px)' )
 				              ->set_default_value( '8' )->set_attribute( 'type', 'number' )->set_width( 25 )->set_help_text( __( 'Default "8"', 'sold-out-badge-for-woocommerce' ) ),
 
+				         // Position (in product loop)
+				         Field::make( 'separator', 'wcsob_position', __( 'Position (in product loop)', 'sold-out-badge-for-woocommerce' ) ),
+				         Field::make( 'text', 'wcsob_position_top', __( 'Position from top', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_default_value( '6' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "6".', 'sold-out-badge-for-woocommerce' ) ),
+				         Field::make( 'text', 'wcsob_position_right', __( 'Position from right', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_default_value( 'auto' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "auto".', 'sold-out-badge-for-woocommerce' ) ),
+				         Field::make( 'text', 'wcsob_position_bottom', __( 'Position from bottom', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_default_value( 'auto' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "auto".', 'sold-out-badge-for-woocommerce' ) ),
+				         Field::make( 'text', 'wcsob_position_left', __( 'Position from left', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_default_value( '6' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "6".', 'sold-out-badge-for-woocommerce' ) ),
 
-                        // Position (in product loop)
-                        Field::make( 'separator', 'wcsob_position', __( 'Position (in product loop)', 'sold-out-badge-for-woocommerce' ) ),
-                        Field::make( 'text', 'wcsob_position_top', __( 'Position from top', 'sold-out-badge-for-woocommerce' ) )
-                             ->set_default_value( '6' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "6".', 'sold-out-badge-for-woocommerce' ) ),
-                        Field::make( 'text', 'wcsob_position_right', __( 'Position from right', 'sold-out-badge-for-woocommerce' ) )
-                             ->set_default_value( 'auto' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "auto".', 'sold-out-badge-for-woocommerce' ) ),
-                        Field::make( 'text', 'wcsob_position_bottom', __( 'Position from bottom', 'sold-out-badge-for-woocommerce' ) )
-                             ->set_default_value( 'auto' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "auto".', 'sold-out-badge-for-woocommerce' ) ),
-                        Field::make( 'text', 'wcsob_position_left', __( 'Position from left', 'sold-out-badge-for-woocommerce' ) )
-                             ->set_default_value( '6' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "6".', 'sold-out-badge-for-woocommerce' ) ),
+				         // Position (in single product)
+				         Field::make( 'separator', 'wcsob_single_position', __( 'Position (in single product)', 'sold-out-badge-for-woocommerce' ) ),
+				         Field::make( 'text', 'wcsob_single_position_top', __( 'Position from top', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_default_value( '6' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "6".', 'sold-out-badge-for-woocommerce' ) ),
+				         Field::make( 'text', 'wcsob_single_position_right', __( 'Position from right', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_default_value( 'auto' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "auto".', 'sold-out-badge-for-woocommerce' ) ),
+				         Field::make( 'text', 'wcsob_single_position_bottom', __( 'Position from bottom', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_default_value( 'auto' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "auto".', 'sold-out-badge-for-woocommerce' ) ),
+				         Field::make( 'text', 'wcsob_single_position_left', __( 'Position from left', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_default_value( '6' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "6".', 'sold-out-badge-for-woocommerce' ) ),
 
-
-                        // Position (in single product)
-				        Field::make( 'separator', 'wcsob_single_position', __( 'Position (in single product)', 'sold-out-badge-for-woocommerce' ) ),
-				        Field::make( 'text', 'wcsob_single_position_top', __( 'Position from top', 'sold-out-badge-for-woocommerce' ) )
-				             ->set_default_value( '6' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "6".', 'sold-out-badge-for-woocommerce' ) ),
-				        Field::make( 'text', 'wcsob_single_position_right', __( 'Position from right', 'sold-out-badge-for-woocommerce' ) )
-				             ->set_default_value( 'auto' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "auto".', 'sold-out-badge-for-woocommerce' ) ),
-				        Field::make( 'text', 'wcsob_single_position_bottom', __( 'Position from bottom', 'sold-out-badge-for-woocommerce' ) )
-				             ->set_default_value( 'auto' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "auto".', 'sold-out-badge-for-woocommerce' ) ),
-				        Field::make( 'text', 'wcsob_single_position_left', __( 'Position from left', 'sold-out-badge-for-woocommerce' ) )
-				             ->set_default_value( '6' )->set_width( 25 )->set_help_text( __( 'Value in px or "auto". Default "6".', 'sold-out-badge-for-woocommerce' ) ),
-
-
-                        // Other settings
-				        Field::make( 'separator', 'wcsob_other_settings', __( 'Other settings', 'sold-out-badge-for-woocommerce' ) ),
-				        Field::make( 'checkbox', 'wcsob_hide_sale_flash', __( 'Hide Sale badge?', 'sold-out-badge-for-woocommerce' ) )
-				             ->set_help_text( __( 'Do you want to hide the "Sale!" badge when a product is sold out?', 'sold-out-badge-for-woocommerce' ) . ' ' . __( 'Checked by default.', 'sold-out-badge-for-woocommerce' ) )
-				             ->set_default_value( true ),
+				         // Other settings
+				         Field::make( 'separator', 'wcsob_other_settings', __( 'Other settings', 'sold-out-badge-for-woocommerce' ) ),
+				         Field::make( 'checkbox', 'wcsob_hide_sale_flash', __( 'Hide Sale badge?', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_help_text( __( 'Do you want to hide the "Sale!" badge when a product is sold out?', 'sold-out-badge-for-woocommerce' ) . ' ' . __( 'Checked by default.', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_default_value( true ),
 			         ] );
 	}
 
@@ -173,7 +167,7 @@ class WCSOB {
 	public function enqueue_scripts() {
 		wp_enqueue_style( 'wcsob', plugin_dir_url( __FILE__ ) . '/style.css' );
 
-        // Product Loop CSS
+		// Product Loop CSS
 		$style = ".wcsob_soldout {";
 		$style .= "    color: " . esc_html( carbon_get_theme_option( 'wcsob_text_color' ) ) . ";";
 		$style .= "    background: " . esc_html( carbon_get_theme_option( 'wcsob_background_color' ) ) . ";";
@@ -192,16 +186,16 @@ class WCSOB {
 		$style .= "    border-radius: " . esc_html( carbon_get_theme_option( 'wcsob_border_radius' ) ) . "px;";
 		$style .= "    z-index: " . esc_html( carbon_get_theme_option( 'wcsob_z_index' ) ) . ";";
 		$style .= "    text-align: center;";
-        $style .= "    position: absolute;";
+		$style .= "    position: absolute;";
 		$style .= "}";
 
-        // Single product CSS
+		// Single product CSS
 		$style .= ".single-product .wcsob_soldout {";
 		$style .= "    top: " . $this->get_value_from_string( 'wcsob_single_position_top' ) . ";";
 		$style .= "    right: " . $this->get_value_from_string( 'wcsob_single_position_right' ) . ";";
 		$style .= "    bottom: " . $this->get_value_from_string( 'wcsob_single_position_bottom' ) . ";";
 		$style .= "    left: " . $this->get_value_from_string( 'wcsob_single_position_left' ) . ";";
-        $style .= "}";
+		$style .= "}";
 
 		wp_add_inline_style( 'wcsob', $style );
 	}
@@ -221,7 +215,7 @@ class WCSOB {
 	public function display_sold_out_in_search_loop( $html ) {
 		global $post, $product;
 
-		if ( is_search() && isset( $product ) && ! $product->is_in_stock() ) {
+		if ( is_search() && isset( $product ) && ! $product->is_in_stock() && ! $this->is_hidden() ) {
 			$badge = apply_filters( 'wcsob_soldout', '<span class="wcsob_soldout">' . esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'sold-out-badge-for-woocommerce' ) . '</span>', $post, $product );
 			$html  = $badge . $html;
 		}
@@ -264,7 +258,7 @@ class WCSOB {
 
 	/**
 	 * Get value and append "px" if numeric, or "auto" if auto, or default value
-     *
+	 *
 	 * @param string    $option
 	 *
 	 * @return mixed|string
@@ -275,13 +269,14 @@ class WCSOB {
 		} elseif ( 'auto' === carbon_get_theme_option( $option ) ) {
 			return 'auto';
 		} else {
-            $field = CarbonHelper::get_field( 'theme_options', null, $option );
-            if (!isset( $field )){
-                return '';
-            }
-            return $field->get_default_value();
+			$field = CarbonHelper::get_field( 'theme_options', null, $option );
+			if ( ! isset( $field ) ) {
+				return '';
+			}
+
+			return $field->get_default_value();
 		}
-    }
+	}
 
 	/**
 	 * Show or hide Sold Out badge when user select a variation in dropdown
@@ -289,19 +284,18 @@ class WCSOB {
 	public function show_badge_on_variation_select() {
 		?>
         <script type="text/javascript">
-            (function($){
-                let $form = $('form.variations_form');
-                let $product = $form.closest( '.product' );
+            (function ($) {
+                let $form         = $('form.variations_form');
+                let $product      = $form.closest('.product');
                 let sold_out_text = "<?php echo esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'sold-out-badge-for-woocommerce' ) ?>";
-                $form.on('show_variation', function(event, data){
-                    if (! data.is_in_stock){
+                $form.on('show_variation', function (event, data) {
+                    if (!data.is_in_stock) {
                         $product.prepend('<span class="wcsob_soldout">' + sold_out_text + '</span>');
-                    }
-                    else {
+                    } else {
                         $('.wcsob_soldout').remove();
                     }
                 });
-                $form.on('reset_data', function(){
+                $form.on('reset_data', function () {
                     $('.wcsob_soldout').remove();
                 });
             })(jQuery);
