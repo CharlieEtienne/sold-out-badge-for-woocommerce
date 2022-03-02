@@ -49,6 +49,7 @@ class WCSOB {
 		add_action( 'woocommerce_before_single_product_summary', [ $this, 'display_sold_out_in_single' ], 30 );
 
 		// Plugin filters
+		add_action( 'post_thumbnail_html', [ $this, 'display_sold_out_in_search_loop' ], 10 );
 		add_filter( 'woocommerce_sale_flash', [ $this, 'hide_sale_flash' ], 10, 3 );
 		add_filter( 'woocommerce_get_stock_html', [ $this, 'replace_out_of_stock_text' ], 10, 2 );
 		add_filter( 'woocommerce_locate_template', [ $this, 'woocommerce_locate_template' ], 1, 3 );
@@ -208,6 +209,20 @@ class WCSOB {
 	 */
 	public function display_sold_out_in_loop() {
 		wc_get_template( 'single-product/sold-out.php' );
+	}
+
+	/**
+	 * Display Sold Out badge in search loop
+	 */
+	public function display_sold_out_in_search_loop( $html ) {
+		global $post, $product;
+
+		if ( is_search() && isset( $product ) && ! $product->is_in_stock() ) {
+			$badge = apply_filters( 'wcsob_soldout', '<span class="wcsob_soldout">' . esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'sold-out-badge-for-woocommerce' ) . '</span>', $post, $product );
+			$html  = $badge . $html;
+		}
+
+		return $html;
 	}
 
 	/**
