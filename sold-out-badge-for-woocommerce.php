@@ -47,6 +47,8 @@ class WCSOB {
 		add_action( 'carbon_fields_register_fields', [ $this, 'add_plugin_settings_page' ] );
 		add_action( 'woocommerce_before_shop_loop_item_title', [ $this, 'display_sold_out_in_loop' ], 10 );
 		add_action( 'woocommerce_before_single_product_summary', [ $this, 'display_sold_out_in_single' ], 30 );
+		add_action( 'woocommerce_product_options_inventory_product_data', [ $this, 'setting_hide_per_product' ] );
+		add_action( 'woocommerce_admin_process_product_object', [ $this, 'save_setting_hide_per_product' ] );
 
 		// Plugin filters
 		add_action( 'post_thumbnail_html', [ $this, 'display_sold_out_in_search_loop' ], 10 );
@@ -208,7 +210,9 @@ class WCSOB {
 	 * Display Sold Out badge in products loop
 	 */
 	public function display_sold_out_in_loop() {
-		wc_get_template( 'single-product/sold-out.php' );
+		if ( ! $this->is_hidden()) {
+			wc_get_template( 'single-product/sold-out.php' );
+		}
 	}
 
 	/**
@@ -229,8 +233,34 @@ class WCSOB {
 	 * Display Sold Out badge in single product
 	 */
 	public function display_sold_out_in_single() {
-		wc_get_template( 'single-product/sold-out.php' );
+        if ( ! $this->is_hidden()) {
+		    wc_get_template( 'single-product/sold-out.php' );
+        }
 	}
+
+	public function setting_hide_per_product() {
+		global $product_object;
+
+		$values = $product_object->get_meta( '_wcsob_hide' );
+
+		woocommerce_wp_checkbox(
+			[
+				'id'          => '_wcsob_hide',
+				'label'       => __( 'Sold Out Badge: Exclude', 'sold-out-badge-for-woocommerce' ),
+				'description' => __( 'Don\'t display SOLD OUT! badge on this product.', 'sold-out-badge-for-woocommerce' ),
+				'value'       => empty( $values ) ? 'no' : $values,
+			] );
+	}
+
+	public function save_setting_hide_per_product( $product ) {
+		$product->update_meta_data( '_wcsob_hide', isset( $_POST[ '_wcsob_hide' ] ) ? 'yes' : 'no' );
+	}
+
+	public function is_hidden(): bool {
+        global $product;
+
+        return get_post_meta( $product->get_id(), '_wcsob_hide', true ) === 'yes';
+    }
 
 	/**
 	 * Get value and append "px" if numeric, or "auto" if auto, or default value
@@ -288,7 +318,7 @@ class WCSOB {
 	 * @return string
 	 */
 	public function replace_out_of_stock_text( string $html, $product ): string {
-		if ( ! $product->is_in_stock() ) {
+		if ( ! $product->is_in_stock() && ! $this->is_hidden() ) {
 			return '<p class="wcsob_soldout_text">' . esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'sold-out-badge-for-woocommerce' ) . '</p>';
 		}
 
