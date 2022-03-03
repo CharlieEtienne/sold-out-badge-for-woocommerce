@@ -2,7 +2,7 @@
 /**
  * Plugin Name:             Sold Out Badge for WooCommerce
  * Description:             Display a "Sold Out!" badge on out-of-stock products
- * Version:                 3.1.0
+ * Version:                 3.2.0
  * Requires at least:       5.2
  * Requires PHP:            7.2
  * WC requires at least:    4.0
@@ -158,6 +158,9 @@ class WCSOB {
 				         Field::make( 'checkbox', 'wcsob_hide_sale_flash', __( 'Hide Sale badge?', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_help_text( __( 'Do you want to hide the "Sale!" badge when a product is sold out?', 'sold-out-badge-for-woocommerce' ) . ' ' . __( 'Checked by default.', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_default_value( true ),
+				         Field::make( 'checkbox', 'wcsob_alt_method', __( 'Use alternative method? (pure CSS)', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_help_text( __( 'Try this method in case of odd badge placement or if the badge does not show. Useful for some themes like Divi. The <code>.product</code> div needs to have a <code>.outofstock</code> class.', 'sold-out-badge-for-woocommerce' ) . ' ' . __( 'Unchecked by default.', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_default_value( false ),
 			         ] );
 	}
 
@@ -169,6 +172,39 @@ class WCSOB {
 
 		// Product Loop CSS
 		$style = ".wcsob_soldout {";
+		$style = $this->product_loop_css( $style );
+		$style .= "}";
+
+		// Single product CSS
+		$style .= ".single-product .wcsob_soldout {";
+		$style .= "    top: " . $this->get_value_from_string( 'wcsob_single_position_top' ) . ";";
+		$style .= "    right: " . $this->get_value_from_string( 'wcsob_single_position_right' ) . ";";
+		$style .= "    bottom: " . $this->get_value_from_string( 'wcsob_single_position_bottom' ) . ";";
+		$style .= "    left: " . $this->get_value_from_string( 'wcsob_single_position_left' ) . ";";
+		$style .= "}";
+
+        // alternative method (pure CSS)
+		if( $this->use_alt_method() ) {
+            $selectors = [
+	            ".woocommerce .product.outofstock .woocommerce-product-gallery:before", // Single product
+                ".woocommerce .product.outofstock .woocommerce-LoopProduct-link:before" // Products loop
+            ];
+            $style .= implode( ', ', $selectors ) . ' {';
+			$style .= "    content: '" . WCSOB::get_badge_text() . "';";
+			$style = $this->product_loop_css( $style );
+			$style .= "}";
+		}
+
+		wp_add_inline_style( 'wcsob', $style );
+
+	}
+
+	/**
+	 * @param string    $style
+	 *
+	 * @return string
+	 */
+	public function product_loop_css( string $style ): string {
 		$style .= "    color: " . esc_html( carbon_get_theme_option( 'wcsob_text_color' ) ) . ";";
 		$style .= "    background: " . esc_html( carbon_get_theme_option( 'wcsob_background_color' ) ) . ";";
 		$style .= "    font-size: " . esc_html( carbon_get_theme_option( 'wcsob_font_size' ) ) . "px;";
@@ -187,24 +223,15 @@ class WCSOB {
 		$style .= "    z-index: " . esc_html( carbon_get_theme_option( 'wcsob_z_index' ) ) . ";";
 		$style .= "    text-align: center;";
 		$style .= "    position: absolute;";
-		$style .= "}";
 
-		// Single product CSS
-		$style .= ".single-product .wcsob_soldout {";
-		$style .= "    top: " . $this->get_value_from_string( 'wcsob_single_position_top' ) . ";";
-		$style .= "    right: " . $this->get_value_from_string( 'wcsob_single_position_right' ) . ";";
-		$style .= "    bottom: " . $this->get_value_from_string( 'wcsob_single_position_bottom' ) . ";";
-		$style .= "    left: " . $this->get_value_from_string( 'wcsob_single_position_left' ) . ";";
-		$style .= "}";
-
-		wp_add_inline_style( 'wcsob', $style );
+		return $style;
 	}
 
 	/**
 	 * Display Sold Out badge in products loop
 	 */
 	public function display_sold_out_in_loop() {
-		if ( ! $this->is_hidden()) {
+		if ( ! $this->is_hidden() && ! $this->use_alt_method() ) {
 			wc_get_template( 'single-product/sold-out.php' );
 		}
 	}
@@ -216,7 +243,7 @@ class WCSOB {
 		global $post, $product;
 
 		if ( is_search() && isset( $product ) && ! $product->is_in_stock() && ! $this->is_hidden() ) {
-			$badge = apply_filters( 'wcsob_soldout', '<span class="wcsob_soldout">' . esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'sold-out-badge-for-woocommerce' ) . '</span>', $post, $product );
+			$badge = apply_filters( 'wcsob_soldout', '<span class="wcsob_soldout">' . WCSOB::get_badge_text() . '</span>', $post, $product );
 			$html  = $badge . $html;
 		}
 
@@ -227,7 +254,7 @@ class WCSOB {
 	 * Display Sold Out badge in single product
 	 */
 	public function display_sold_out_in_single() {
-        if ( ! $this->is_hidden()) {
+        if ( ! $this->is_hidden() && ! $this->use_alt_method()) {
 		    wc_get_template( 'single-product/sold-out.php' );
         }
 	}
@@ -255,6 +282,24 @@ class WCSOB {
 
         return get_post_meta( $product->get_id(), '_wcsob_hide', true ) === 'yes';
     }
+
+	/**
+     * Check if we are using alternative method
+     *
+	 * @return mixed
+	 */
+	public function use_alt_method() {
+		return carbon_get_theme_option( 'wcsob_alt_method' );
+	}
+
+	/**
+	 * Get badge text
+	 *
+	 * @return string
+	 */
+	public static function get_badge_text(): string {
+		return esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'sold-out-badge-for-woocommerce' );
+	}
 
 	/**
 	 * Get value and append "px" if numeric, or "auto" if auto, or default value
@@ -287,7 +332,7 @@ class WCSOB {
             (function ($) {
                 let $form         = $('form.variations_form');
                 let $product      = $form.closest('.product');
-                let sold_out_text = "<?php echo esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'sold-out-badge-for-woocommerce' ) ?>";
+                let sold_out_text = "<?php echo WCSOB::get_badge_text() ?>";
                 $form.on('show_variation', function (event, data) {
                     if (!data.is_in_stock) {
                         $product.prepend('<span class="wcsob_soldout">' + sold_out_text + '</span>');
@@ -313,7 +358,7 @@ class WCSOB {
 	 */
 	public function replace_out_of_stock_text( string $html, $product ): string {
 		if ( ! $product->is_in_stock() && ! $this->is_hidden() ) {
-			return '<p class="wcsob_soldout_text">' . esc_html__( carbon_get_theme_option( 'wcsob_text' ), 'sold-out-badge-for-woocommerce' ) . '</p>';
+			return '<p class="wcsob_soldout_text">' . WCSOB::get_badge_text() . '</p>';
 		}
 
 		return $html;
