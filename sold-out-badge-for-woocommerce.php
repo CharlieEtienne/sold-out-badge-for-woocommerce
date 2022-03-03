@@ -2,7 +2,7 @@
 /**
  * Plugin Name:             Sold Out Badge for WooCommerce
  * Description:             Display a "Sold Out!" badge on out-of-stock products
- * Version:                 3.2.0
+ * Version:                 3.2.1
  * Requires at least:       5.2
  * Requires PHP:            7.2
  * WC requires at least:    4.0
@@ -30,6 +30,7 @@ require_once dirname( __FILE__ ) . '/vendor/carbon-fields/carbon-fields-plugin.p
 class WCSOB {
 
 	private static $instance;
+	public         $outofstock_class_single;
 
 	final public static function get_instance(): WCSOB {
 		if ( null === self::$instance ) {
@@ -38,6 +39,10 @@ class WCSOB {
 
 		return self::$instance;
 	}
+
+    public function __construct() {
+	    $this->outofstock_class_single = 'wcsob-outofstock-product';
+    }
 
 	public function init() {
 		// Plugin actions
@@ -49,6 +54,7 @@ class WCSOB {
 		add_action( 'woocommerce_before_single_product_summary', [ $this, 'display_sold_out_in_single' ], 30 );
 		add_action( 'woocommerce_product_options_inventory_product_data', [ $this, 'setting_hide_per_product' ] );
 		add_action( 'woocommerce_admin_process_product_object', [ $this, 'save_setting_hide_per_product' ] );
+		add_action( 'body_class', [ $this, 'add_body_class' ] );
 
 		// Plugin filters
 		add_action( 'post_thumbnail_html', [ $this, 'display_sold_out_in_search_loop' ], 10 );
@@ -186,8 +192,8 @@ class WCSOB {
         // alternative method (pure CSS)
 		if( $this->use_alt_method() ) {
             $selectors = [
-	            ".woocommerce .product.outofstock .woocommerce-product-gallery:before", // Single product
-                ".woocommerce .product.outofstock .woocommerce-LoopProduct-link:before" // Products loop
+                ".woocommerce .product.outofstock .woocommerce-LoopProduct-link:before", // Products loop
+                "." . $this->outofstock_class_single . " .woocommerce-product-gallery:before" // Single product
             ];
             $style .= implode( ', ', $selectors ) . ' {';
 			$style .= "    content: '" . WCSOB::get_badge_text() . "';";
@@ -225,6 +231,22 @@ class WCSOB {
 		$style .= "    position: absolute;";
 
 		return $style;
+	}
+
+	public function add_body_class($classes) {
+		global $post;
+		if ( ! is_singular( 'product' )){
+			return $classes;
+		}
+
+		$product = wc_get_product( $post->ID );
+
+		$outofstock_class = [];
+
+		if ( !empty( $product ) && ! $product->is_in_stock() && ! $this->is_hidden() ) {
+			$outofstock_class = [ $this->outofstock_class_single ];
+		}
+		return array_merge( $classes, $outofstock_class );
 	}
 
 	/**
@@ -278,9 +300,9 @@ class WCSOB {
 	}
 
 	public function is_hidden(): bool {
-        global $product;
+        global $post;
 
-        return get_post_meta( $product->get_id(), '_wcsob_hide', true ) === 'yes';
+        return get_post_meta( $post->ID, '_wcsob_hide', true ) === 'yes';
     }
 
 	/**
