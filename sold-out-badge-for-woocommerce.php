@@ -2,7 +2,7 @@
 /**
  * Plugin Name:             Sold Out Badge for WooCommerce
  * Description:             Display a "Sold Out!" badge on out-of-stock products
- * Version:                 3.2.1
+ * Version:                 3.2.2
  * Requires at least:       5.2
  * Requires PHP:            7.2
  * WC requires at least:    4.0
@@ -40,9 +40,9 @@ class WCSOB {
 		return self::$instance;
 	}
 
-    public function __construct() {
-	    $this->outofstock_class_single = 'wcsob-outofstock-product';
-    }
+	public function __construct() {
+		$this->outofstock_class_single = 'wcsob-outofstock-product';
+	}
 
 	public function init() {
 		// Plugin actions
@@ -50,18 +50,18 @@ class WCSOB {
 		add_action( 'after_setup_theme', [ $this, 'load_carbon_fields' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'carbon_fields_register_fields', [ $this, 'add_plugin_settings_page' ] );
+		add_action( 'woocommerce_before_single_variation', [ $this, 'show_badge_on_variation_select' ] );
 		add_action( 'woocommerce_before_shop_loop_item_title', [ $this, 'display_sold_out_in_loop' ], 10 );
 		add_action( 'woocommerce_before_single_product_summary', [ $this, 'display_sold_out_in_single' ], 30 );
 		add_action( 'woocommerce_product_options_inventory_product_data', [ $this, 'setting_hide_per_product' ] );
 		add_action( 'woocommerce_admin_process_product_object', [ $this, 'save_setting_hide_per_product' ] );
-		add_action( 'body_class', [ $this, 'add_body_class' ] );
 
 		// Plugin filters
-		add_action( 'post_thumbnail_html', [ $this, 'display_sold_out_in_search_loop' ], 10 );
+		add_filter( 'body_class', [ $this, 'add_body_class' ] );
+		add_filter( 'post_thumbnail_html', [ $this, 'display_sold_out_in_search_loop' ], 10 );
 		add_filter( 'woocommerce_sale_flash', [ $this, 'hide_sale_flash' ], 10, 3 );
 		add_filter( 'woocommerce_get_stock_html', [ $this, 'replace_out_of_stock_text' ], 10, 2 );
 		add_filter( 'woocommerce_locate_template', [ $this, 'woocommerce_locate_template' ], 1, 3 );
-		add_action( 'woocommerce_before_single_variation', [ $this, 'show_badge_on_variation_select' ] );
 	}
 
 	/**
@@ -189,20 +189,19 @@ class WCSOB {
 		$style .= "    left: " . $this->get_value_from_string( 'wcsob_single_position_left' ) . ";";
 		$style .= "}";
 
-        // alternative method (pure CSS)
-		if( $this->use_alt_method() ) {
-            $selectors = [
-                ".woocommerce .product.outofstock .woocommerce-LoopProduct-link:before", // Products loop
-                "." . $this->outofstock_class_single . " .woocommerce-product-gallery:before" // Single product
-            ];
-            $style .= implode( ', ', $selectors ) . ' {';
-			$style .= "    content: '" . WCSOB::get_badge_text() . "';";
-			$style = $this->product_loop_css( $style );
-			$style .= "}";
+		// alternative method (pure CSS)
+		if ( $this->use_alt_method() ) {
+			$selectors = [
+				".woocommerce .product.outofstock .woocommerce-LoopProduct-link:before", // Products loop
+				"." . $this->outofstock_class_single . " .woocommerce-product-gallery:before" // Single product
+			];
+			$style     .= implode( ', ', $selectors ) . ' {';
+			$style     .= "    content: '" . WCSOB::get_badge_text() . "';";
+			$style     = $this->product_loop_css( $style );
+			$style     .= "}";
 		}
 
 		wp_add_inline_style( 'wcsob', $style );
-
 	}
 
 	/**
@@ -233,9 +232,9 @@ class WCSOB {
 		return $style;
 	}
 
-	public function add_body_class($classes) {
+	public function add_body_class( $classes ) {
 		global $post;
-		if ( ! is_singular( 'product' )){
+		if ( ! is_singular( 'product' ) ) {
 			return $classes;
 		}
 
@@ -243,9 +242,10 @@ class WCSOB {
 
 		$outofstock_class = [];
 
-		if ( !empty( $product ) && ! $product->is_in_stock() && ! $this->is_hidden() ) {
+		if ( ! empty( $product ) && ! $product->is_in_stock() && ! $this->is_hidden() ) {
 			$outofstock_class = [ $this->outofstock_class_single ];
 		}
+
 		return array_merge( $classes, $outofstock_class );
 	}
 
@@ -276,9 +276,9 @@ class WCSOB {
 	 * Display Sold Out badge in single product
 	 */
 	public function display_sold_out_in_single() {
-        if ( ! $this->is_hidden() && ! $this->use_alt_method()) {
-		    wc_get_template( 'single-product/sold-out.php' );
-        }
+		if ( ! $this->is_hidden() && ! $this->use_alt_method() ) {
+			wc_get_template( 'single-product/sold-out.php' );
+		}
 	}
 
 	public function setting_hide_per_product() {
@@ -300,14 +300,14 @@ class WCSOB {
 	}
 
 	public function is_hidden(): bool {
-        global $post;
+		global $post;
 
-        return get_post_meta( $post->ID, '_wcsob_hide', true ) === 'yes';
-    }
+		return get_post_meta( $post->ID, '_wcsob_hide', true ) === 'yes';
+	}
 
 	/**
-     * Check if we are using alternative method
-     *
+	 * Check if we are using alternative method
+	 *
 	 * @return mixed
 	 */
 	public function use_alt_method() {
