@@ -1,0 +1,23 @@
+{
+  "name": "charlie_etienne/sold-out-badge-for-woocommerce",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "GPL-2.0-only",
+  "type": "wordpress-plugin",
+  "homepage": "https://wordpress.org/plugins/sold-out-badge-for-woocommerce",
+  "authors": [
+    {
+      "name": "Charlie Etienne",
+      "email": "ce@web-nancy.fr"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "htmlburger/carbon-fields": "^3.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "CharlieEtienne\\WCSOB\\": "classes/"
+    }
+  }
+}

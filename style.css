@@ -2,3 +2,7 @@
     text-align: center;
     position: absolute;
 }
+.theme-lay:not(.single-product) .wcsob_soldout {
+    position: relative !important;
+    float: left !important;
+}
