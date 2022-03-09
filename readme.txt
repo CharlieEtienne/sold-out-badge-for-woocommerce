@@ -1,7 +1,7 @@
 === Sold Out Badge for WooCommerce ===
 Contributors: charlieetienne
 Tags: woocommerce, sold out, out of stock, badge, wcsob
-Stable tag: 3.2.2
+Stable tag: 4.0.0
 Requires at least: 5.2
 Tested up to: 5.9
 Requires PHP: 7.2
@@ -66,6 +66,10 @@ Yes. Go to *Settings > Sold Out Badge for WooCommerce*, you'll find the setting 
 3. Admin settings
 
 == Changelog ==
+
+= 4.0.0 =
+* Major code refactor (nothing is supposed to change unless you made custom dev using this plugin hooks or classes )
+* Added compatibility with Lay Theme
 
 = 3.2.2 =
 * Minor fixes
