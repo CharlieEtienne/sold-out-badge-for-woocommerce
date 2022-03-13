@@ -103,8 +103,11 @@ class Settings {
 		return carbon_get_theme_option( $option );
 	}
 
-	public static function get_value( string $option ): string {
-		return esc_html( self::get_option( $option ) );
+	public static function get_value( string $option, string $format = "" ): string {
+		return sprintf( "%s%s",
+		                esc_html( self::get_option( $option ) ),
+		                empty( $format ) ? "" : $format
+		);
 	}
 
 	public static function get_text( string $option ): string {
@@ -120,7 +123,7 @@ class Settings {
 	 */
 	public static function get_value_from_string( string $option ) {
 		if ( is_numeric( self::get_option( $option ) ) ) {
-			return self::get_value( $option ) . 'px';
+			return self::get_value( $option, 'px' );
 		} elseif ( 'auto' === self::get_option( $option ) ) {
 			return 'auto';
 		} else {

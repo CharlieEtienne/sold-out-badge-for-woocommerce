@@ -2,7 +2,7 @@
 /**
  * Plugin Name:             Sold Out Badge for WooCommerce
  * Description:             Display a "Sold Out!" badge on out-of-stock products
- * Version:                 4.0.0
+ * Version:                 4.1.0
  * Requires at least:       5.2
  * Requires PHP:            7.2
  * WC requires at least:    4.0
@@ -28,6 +28,9 @@ require dirname( __FILE__ ) . '/vendor/autoload.php';
 // Define plugin consts
 if ( ! defined( 'WCSOB_PLUGIN_PATH' ) ) {
 	define( 'WCSOB_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+}
+if ( ! defined( 'WCSOB_PLUGIN_REL_PATH' ) ) {
+	define( 'WCSOB_PLUGIN_REL_PATH', dirname( plugin_basename( __FILE__ ) ) );
 }
 if ( ! defined( 'WCSOB_PLUGIN_URL' ) ) {
 	define( 'WCSOB_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

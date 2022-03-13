@@ -33,7 +33,7 @@ class WP {
 	 * Loads plugin's translated strings.
 	 */
 	public static function load_plugin_textdomain() {
-		load_plugin_textdomain( 'wcsob', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'wcsob', false, WCSOB_PLUGIN_REL_PATH . '/languages/' );
 	}
 
 	/**
