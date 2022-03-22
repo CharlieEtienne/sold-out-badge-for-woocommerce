@@ -48,7 +48,6 @@ class Badge {
 			Badge::single_css_position()
 		);
 
-
 		// alternative method (pure CSS)
 		if ( Settings::use_alt_method() ) {
 			// Product Loop AND Single product CSS
@@ -118,16 +117,29 @@ class Badge {
 			"single" => ".single-product .wcsob_soldout" // Single product
 		];
 
-		return Badge::get_css_classes($selector);
+		return Badge::get_css_classes( $selector );
 	}
 
 	public static function get_alt_selectors( string $selector = "" ): string {
+
+		$loop_selectors = [];
+		$single_selectors = [];
+
+		if( self::showOnOutofstock()) {
+			$loop_selectors[] = '.woocommerce .product.outofstock .woocommerce-LoopProduct-link:before';
+			$single_selectors[] = "." . WCSOB::$outofstock_class_single . " .woocommerce-product-gallery:before";
+		}
+		if( self::showOnBackorder()) {
+			$loop_selectors[] = '.woocommerce .product.onbackorder .woocommerce-LoopProduct-link:before';
+			$single_selectors[] = "." . WCSOB::$backorder_class_single . " .woocommerce-product-gallery:before";
+		}
+
 		Badge::$selectors = [
-			"loop"   => ".woocommerce .product.outofstock .woocommerce-LoopProduct-link:before", // Products loop
-			"single" => "." . WCSOB::$outofstock_class_single . " .woocommerce-product-gallery:before" // Single product
+			"loop"   => implode( ', ', $loop_selectors), // Products loop
+			"single" => implode( ', ', $single_selectors) // Single product
 		];
 
-		return Badge::get_css_classes($selector);
+		return Badge::get_css_classes( $selector );
 	}
 
 	public static function get_css_classes( string $selector = "" ): string {
@@ -136,5 +148,25 @@ class Badge {
 		}
 
 		return implode( ', ', Badge::$selectors );
+	}
+
+	/**
+	 * @param $product
+	 *
+	 * @return bool
+	 */
+	public static function shoudDisplay( $product ): bool {
+		return (
+			( self::showOnOutofstock() && ! $product->is_in_stock() ) ||
+			( self::showOnBackorder() && $product->is_on_backorder() )
+		);
+	}
+
+	public static function showOnOutofstock(): bool {
+		return empty( Settings::get_behaviour() ) || ( is_array( Settings::get_behaviour() ) && in_array( 'out-of-stock', Settings::get_behaviour() ) );
+	}
+
+	public static function showOnBackorder(): bool {
+		return is_array( Settings::get_behaviour() ) && in_array( 'backorder', Settings::get_behaviour() );
 	}
 }

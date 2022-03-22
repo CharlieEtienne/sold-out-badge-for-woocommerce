@@ -93,6 +93,13 @@ class Settings {
 				         Field::make( 'checkbox', 'wcsob_hide_sale_flash', __( 'Hide Sale badge?', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_help_text( __( 'Do you want to hide the "Sale!" badge when a product is sold out?', 'sold-out-badge-for-woocommerce' ) . ' ' . __( 'Checked by default.', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_default_value( true ),
+				         Field::make( 'multiselect', 'wcsob_behaviour', __( 'Behaviour', 'sold-out-badge-for-woocommerce' ) )
+				              ->set_options( [
+					                             'out-of-stock' => __( 'Display on "out of stock" products (default)', 'sold-out-badge-for-woocommerce' ),
+					                             'backorder' => __( 'Display on "available on backorder" products', 'sold-out-badge-for-woocommerce' ),
+				                             ] )
+				              ->set_default_value( 'out-of-stock' )
+					          ->set_help_text( __( 'Choose whether to display badge on "out of stock" products (default) or/and on "available on backorder" products', 'sold-out-badge-for-woocommerce' ) ),
 				         Field::make( 'checkbox', 'wcsob_alt_method', __( 'Use alternative method? (pure CSS)', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_help_text( __( 'Try this method in case of odd badge placement or if the badge does not show. Useful for some themes like Divi. The <code>.product</code> div needs to have a <code>.outofstock</code> class.', 'sold-out-badge-for-woocommerce' ) . ' ' . __( 'Unchecked by default.', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_default_value( false ),
@@ -116,6 +123,10 @@ class Settings {
 		}
 
 		return esc_html( I18n::get_theme_option( $option ) );
+	}
+
+	public static function get_behaviour() {
+		return self::get_option( 'wcsob_behaviour' );
 	}
 
 	/**

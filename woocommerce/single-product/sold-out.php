@@ -9,7 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $post, $product;
 
 ?>
-<?php if ( ! $product->is_in_stock() ) : ?>
+<?php
+if ( Badge::shoudDisplay( $product ) ) : ?>
 
 	<?php echo apply_filters( 'wcsob_soldout', '<span class="wcsob_soldout">' . Badge::get_text() . '</span>', $post, $product ); ?>
 

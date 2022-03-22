@@ -58,7 +58,7 @@ class WooCommerce {
 	public static function hide_sale_flash( string $content, $post, $product ): ?string {
 		global $post, $product;
 
-		return ( Settings::should_hide_sale_flash() && ! $product->is_in_stock() ) ? null : $content;
+		return ( Settings::should_hide_sale_flash() && Badge::showOnOutofstock() && ! $product->is_in_stock() ) ? null : $content;
 	}
 
 	/**
@@ -70,7 +70,7 @@ class WooCommerce {
 	 * @return string
 	 */
 	public static function replace_out_of_stock_text( string $html, $product ): string {
-		if ( ! $product->is_in_stock() && ! Badge::is_hidden() ) {
+		if ( Badge::showOnOutofstock() && ! $product->is_in_stock() && ! Badge::is_hidden() ) {
 			return '<p class="wcsob_soldout_text">' . Badge::get_text() . '</p>';
 		}
 
