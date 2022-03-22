@@ -20,7 +20,7 @@ class Settings {
 			         [
 				         // Content
 				         Field::make( 'separator', 'wcsob_content', __( 'Content', 'sold-out-badge-for-woocommerce' ) ),
-				         Field::make( 'text', 'wcsob_text', __( 'Label', 'sold-out-badge-for-woocommerce' ) )
+				         Field::make( 'text', 'wcsob_text' . I18n::get_suffix(), __( 'Label', 'sold-out-badge-for-woocommerce' ) )
 				              ->set_default_value( __( 'Sold out!', 'sold-out-badge-for-woocommerce' ) ),
 
 				         // Colors
@@ -111,7 +111,11 @@ class Settings {
 	}
 
 	public static function get_text( string $option ): string {
-		return esc_html__( self::get_option( $option ), 'sold-out-badge-for-woocommerce' );
+		if ( empty( I18n::get_theme_option( $option ) ) ) {
+			return esc_html__( self::get_option( $option ), 'sold-out-badge-for-woocommerce' );
+		}
+
+		return esc_html( I18n::get_theme_option( $option ) );
 	}
 
 	/**
