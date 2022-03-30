@@ -134,6 +134,9 @@ class Badge {
 			$single_selectors[] = "." . WCSOB::$backorder_class_single . " .woocommerce-product-gallery:before";
 		}
 
+		// Elementor Archive posts compat
+		$loop_selectors[] = '.elementor-posts .product.outofstock .elementor-post__thumbnail__link:before';
+
 		Badge::$selectors = [
 			"loop"   => implode( ', ', $loop_selectors), // Products loop
 			"single" => implode( ', ', $single_selectors) // Single product
