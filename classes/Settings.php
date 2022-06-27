@@ -12,7 +12,7 @@ class Settings {
 	 *
 	 * @noinspection PhpPossiblePolymorphicInvocationInspection
 	 */
-	public static function add_plugin_settings_page(): void {
+	public static function add_plugin_settings_page() {
 		Container::make( 'theme_options', __( 'Sold Out Badge for WooCommerce', 'sold-out-badge-for-woocommerce' ) )
 		         ->set_page_file( 'wcsob' )
 		         ->set_page_parent( 'options-general.php' )
@@ -125,7 +125,7 @@ class Settings {
 		return esc_html( I18n::get_theme_option( $option ) );
 	}
 
-	public static function get_behaviour(): mixed {
+	public static function get_behaviour() {
 		return self::get_option( 'wcsob_behaviour' );
 	}
 
@@ -136,7 +136,7 @@ class Settings {
 	 *
 	 * @return mixed|string
 	 */
-	public static function get_value_from_string( string $option ): mixed {
+	public static function get_value_from_string( string $option ) {
 		if ( is_numeric( self::get_option( $option ) ) ) {
 			return self::get_value( $option, 'px' );
 		} elseif ( 'auto' === self::get_option( $option ) ) {
@@ -146,7 +146,7 @@ class Settings {
 		}
 	}
 
-	public static function get_default_value( $option ): mixed {
+	public static function get_default_value( $option ) {
 		$field = CarbonHelper::get_field( 'theme_options', null, $option );
 		if ( ! isset( $field ) ) {
 			return '';
@@ -158,7 +158,7 @@ class Settings {
 	/**
 	 * @return mixed
 	 */
-	public static function should_hide_sale_flash(): mixed {
+	public static function should_hide_sale_flash() {
 		return self::get_option( 'wcsob_hide_sale_flash' );
 	}
 
@@ -167,7 +167,7 @@ class Settings {
 	 *
 	 * @return mixed
 	 */
-	public static function use_alt_method(): mixed {
+	public static function use_alt_method() {
 		return self::get_option( 'wcsob_alt_method' );
 	}
 

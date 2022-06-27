@@ -12,7 +12,7 @@ class I18n {
 		return '_' . ICL_LANGUAGE_CODE;
 	}
 
-	public static function get_theme_option( $option_name ): mixed {
+	public static function get_theme_option( $option_name ) {
 		return carbon_get_theme_option( $option_name . self::get_suffix() );
 	}
 }
