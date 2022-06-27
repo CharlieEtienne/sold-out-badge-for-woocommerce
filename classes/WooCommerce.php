@@ -80,7 +80,7 @@ class WooCommerce {
 	/**
 	 * Show or hide Sold Out badge when user select a variation in dropdown
 	 */
-	public static function show_badge_on_variation_select() {
+	public static function show_badge_on_variation_select(): void {
 		?>
 		<script type="text/javascript">
             (function ($) {

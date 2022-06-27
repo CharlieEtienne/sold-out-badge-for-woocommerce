@@ -1,9 +1,9 @@
 === Sold Out Badge for WooCommerce ===
 Contributors: charlieetienne
 Tags: woocommerce, sold out, out of stock, badge, wcsob
-Stable tag: 4.3.1
+Stable tag: 4.3.2
 Requires at least: 5.2
-Tested up to: 5.9
+Tested up to: 6.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html

@@ -24,7 +24,7 @@ class Badge {
 	/**
 	 * Display Sold Out badge in products loop
 	 */
-	public static function display() {
+	public static function display(): void {
 		if ( ! Badge::is_hidden() && ! Settings::use_alt_method() ) {
 			wc_get_template( 'single-product/sold-out.php' );
 		}

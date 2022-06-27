@@ -7,12 +7,12 @@ class WP {
 	/**
 	 * Enqueue plugin scripts and styles
 	 */
-	public static function enqueue_scripts() {
+	public static function enqueue_scripts(): void {
 		wp_enqueue_style( 'wcsob', WCSOB_PLUGIN_URL . '/style.css' );
 		wp_add_inline_style( 'wcsob', Badge::get_css() );
 	}
 
-	public static function add_body_class( $classes ) {
+	public static function add_body_class( $classes ): mixed {
 		global $post;
 		if ( ! is_singular( 'product' ) ) {
 			return $classes;
@@ -37,7 +37,7 @@ class WP {
 	/**
 	 * Loads plugin's translated strings.
 	 */
-	public static function load_plugin_textdomain() {
+	public static function load_plugin_textdomain(): void {
 		load_plugin_textdomain( 'wcsob', false, WCSOB_PLUGIN_REL_PATH . '/languages/' );
 	}
 
@@ -48,7 +48,7 @@ class WP {
 	 *
 	 * @return mixed|string
 	 */
-	public static function display_sold_out_in_search_loop( $html ) {
+	public static function display_sold_out_in_search_loop( $html ): mixed {
 		global $post, $product;
 
 		if ( is_search() && isset( $product ) && Badge::shoudDisplay( $product ) && ! Badge::is_hidden() ) {
