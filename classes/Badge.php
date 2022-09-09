@@ -64,8 +64,24 @@ class Badge {
 				Badge::get_alt_selectors( 'single' ),
 				Badge::single_css_position()
 			);
+
+			// Related products
+			$style .= Badge::related_products();
 		}
 
+		return $style;
+	}
+
+	public static function related_products(): string {
+		$style = "";
+		if( self::showOnOutofstock() ) {
+			$style .= ".woocommerce .related .product:not(.outofstock) :before{display:none}";
+			$style .= ".woocommerce .upsells .product:not(.outofstock) :before{display:none}";
+		}
+		if( self::showOnBackorder() ) {
+			$style = ".woocommerce .related .product:not(.onbackorder) :before{display:none}";
+			$style .= ".woocommerce .upsells .product:not(.onbackorder) :before{display:none}";
+		}
 		return $style;
 	}
 
