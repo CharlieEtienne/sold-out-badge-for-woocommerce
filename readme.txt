@@ -1,7 +1,7 @@
 === Sold Out Badge for WooCommerce ===
 Contributors: charlieetienne
 Tags: woocommerce, sold out, out of stock, badge, wcsob
-Stable tag: 4.3.4
+Stable tag: 4.3.5
 Requires at least: 5.2
 Tested up to: 6.0
 Requires PHP: 7.2
@@ -68,6 +68,9 @@ Yes. Go to *Settings > Sold Out Badge for WooCommerce*, you'll find the setting 
 3. Admin settings
 
 == Changelog ==
+
+= 4.3.5 =
+* Fix missing hook in Elementor page builder
 
 = 4.3.4 =
 * Fix related and upsells products in some themes like Divi
