@@ -88,10 +88,9 @@ class WooCommerce {
                 let $product      = $('div.woocommerce-product-gallery');
                 let sold_out_text = "<?php echo Badge::get_text() ?>";
                 $form.on('show_variation', function (event, data) {
+                    $('.wcsob_soldout').remove();
                     if (!data.is_in_stock) {
                         $product.prepend('<span class="wcsob_soldout">' + sold_out_text + '</span>');
-                    } else {
-                        $('.wcsob_soldout').remove();
                     }
                 });
                 $form.on('reset_data', function () {
