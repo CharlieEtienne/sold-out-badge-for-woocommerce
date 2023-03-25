@@ -85,7 +85,7 @@ class WooCommerce {
 		<script type="text/javascript">
             (function ($) {
                 let $form         = $('form.variations_form');
-                let $product      = $form.closest('.product');
+                let $product      = $('div.woocommerce-product-gallery');
                 let sold_out_text = "<?php echo Badge::get_text() ?>";
                 $form.on('show_variation', function (event, data) {
                     if (!data.is_in_stock) {
