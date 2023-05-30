@@ -13,7 +13,7 @@
   ],
   "require": {
     "php": ">=7.2",
-    "htmlburger/carbon-fields": "^3.3"
+    "htmlburger/carbon-fields": "^3.6"
   },
   "autoload": {
     "psr-4": {

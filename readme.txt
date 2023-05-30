@@ -1,9 +1,9 @@
 === Sold Out Badge for WooCommerce ===
 Contributors: charlieetienne
 Tags: woocommerce, sold out, out of stock, badge, wcsob
-Stable tag: 4.3.6
+Stable tag: 4.4.0
 Requires at least: 5.2
-Tested up to: 6.0
+Tested up to: 6.2
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -61,6 +61,74 @@ Sure, go ahead! It is completely open source.
 = Can I change the badge text? =
 Yes. Go to *Settings > Sold Out Badge for WooCommerce*, you'll find the setting you want.
 
+= What if this plugin isn't compatible with my theme or doesn't work? =
+You could uninstall this plugin and try to get the badge manually. There are two ways you could do it:
+
+### 1. Pure CSS
+If you're lucky enough, you'll have a specific CSS class for out-of-stock products. 
+You could add a SOLD OUT badge like this:
+
+```CSS
+.product.outofstock:before {
+     content: 'SOLD OUT';
+     color: #ffffff;
+     background: #FE2121;
+     font-size: 16px;
+     padding: 4px;
+     font-weight: bold;
+     width: auto;
+     height: auto;
+     border-radius: 0;
+     z-index: 9999;
+     text-align: center;
+     position: absolute;
+     top: 6px;
+     right: auto;
+     bottom: auto;
+     left: 6px;
+}
+```
+
+### 2. PHP + CSS
+Otherwise, you could use WP hooks to add a badge. Put this code in your child theme's `functions.php`:
+
+```PHP
+add_action( 'woocommerce_before_shop_loop_item_title', 'my_custom_soldout_badge_display', 10 );
+add_action( 'woocommerce_before_single_product_summary', 'my_custom_soldout_badge_display', 30 );
+
+function my_custom_soldout_badge_display() {
+    global $post, $product;
+
+    if ( ! $product->is_in_stock() ) {
+        echo '<span class="wcsob_soldout">SOLD OUT</span>';
+    }
+}
+```
+
+Use the following CSS code to style the badge:
+
+```CSS
+.wcsob_soldout {
+     content: 'SOLD OUT';
+     color: #ffffff;
+     background: #FE2121;
+     font-size: 16px;
+     padding: 4px;
+     font-weight: bold;
+     width: auto;
+     height: auto;
+     border-radius: 0;
+     z-index: 9999;
+     text-align: center;
+     position: absolute;
+     top: 6px;
+     right: auto;
+     bottom: auto;
+     left: 6px;
+}
+```
+
+
 == Screenshots ==
 
 1. Single product page
@@ -68,6 +136,11 @@ Yes. Go to *Settings > Sold Out Badge for WooCommerce*, you'll find the setting 
 3. Admin settings
 
 == Changelog ==
+
+= 4.4.0 =
+* Support PHP 8.2
+* Bump Carbon Fields version to 3.6.0
+* Improve docs
 
 = 4.3.6 =
 * Fix compatibility issues with kadence blocks and woocommerce HPOS thanks to @ataypamart
