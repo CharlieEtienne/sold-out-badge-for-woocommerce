@@ -19,7 +19,7 @@ When a WooCommerce product becomes out of stock, this plugin will show a badge o
 
 This plugin was initially created to help people and companies selling *unique* products or services, like artists, artisans, real estate professionals, etc. It is often beneficial for them to keep showing sold out (out of stock) products on their websites, while displaying a message indicating that the product can't be sold anymore.
 
-However, this plugin can be used by **anyone** wanting to display **any text** in a badge when a product is out of stock. 
+However, this plugin can be used by **anyone** wanting to display **any text** in a badge when a product is out of stock.
 
 It is also possible to display a badge on backorder products.
 
@@ -64,11 +64,12 @@ Yes. Go to *Settings > Sold Out Badge for WooCommerce*, you'll find the setting 
 = What if this plugin isn't compatible with my theme or doesn't work? =
 You could uninstall this plugin and try to get the badge manually. There are two ways you could do it:
 
-### 1. Pure CSS
-If you're lucky enough, you'll have a specific CSS class for out-of-stock products. 
+**1. Pure CSS**
+
+If you're lucky enough, you'll have a specific CSS class for out-of-stock products.
 You could add a SOLD OUT badge like this:
 
-```CSS
+~~~css
 .product.outofstock:before {
      content: 'SOLD OUT';
      color: #ffffff;
@@ -87,12 +88,13 @@ You could add a SOLD OUT badge like this:
      bottom: auto;
      left: 6px;
 }
-```
+~~~
 
-### 2. PHP + CSS
+**2. PHP + CSS**
+
 Otherwise, you could use WP hooks to add a badge. Put this code in your child theme's `functions.php`:
 
-```PHP
+~~~php
 add_action( 'woocommerce_before_shop_loop_item_title', 'my_custom_soldout_badge_display', 10 );
 add_action( 'woocommerce_before_single_product_summary', 'my_custom_soldout_badge_display', 30 );
 
@@ -103,11 +105,11 @@ function my_custom_soldout_badge_display() {
         echo '<span class="wcsob_soldout">SOLD OUT</span>';
     }
 }
-```
+~~~
 
 Use the following CSS code to style the badge:
 
-```CSS
+~~~css
 .wcsob_soldout {
      content: 'SOLD OUT';
      color: #ffffff;
@@ -126,7 +128,7 @@ Use the following CSS code to style the badge:
      bottom: auto;
      left: 6px;
 }
-```
+~~~
 
 
 == Screenshots ==
@@ -160,7 +162,7 @@ Use the following CSS code to style the badge:
 = 4.2.0 =
 * Adds WPML compatibility
 
-= 4.1.0 = 
+= 4.1.0 =
 * Fixes Text Domain Path
 * Fixes single product position settings being ignored
 
@@ -189,5 +191,5 @@ Use the following CSS code to style the badge:
 * **Potential breaking change (in other words, do a backup before upgrading)** : Adds settings options to control appearance (width, height, border-radius, etc.)
 
 = 2.2.0 =
-   * Move to Singleton pattern to let other developpers unhook actions and filters.
-     If you want to unhook something, use it like this, for example: `remove_filter( 'woocommerce_get_stock_html', [ WCSOB::get_instance(), 'replace_out_of_stock_text' ], 10, 2 );`
+* Move to Singleton pattern to let other developpers unhook actions and filters.
+  If you want to unhook something, use it like this, for example: `remove_filter( 'woocommerce_get_stock_html', [ WCSOB::get_instance(), 'replace_out_of_stock_text' ], 10, 2 );`
